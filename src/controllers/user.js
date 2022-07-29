@@ -36,7 +36,7 @@ exports.updateAvatar = (req, res) => {
     return;
   }
 
-  User.findByIdAndUpdate(req.user._id, { avatar })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => handleError(err, res));
