@@ -19,7 +19,11 @@ exports.createUser = (req, res) =>
 
 exports.updateUser = (req, res) => {
   const { avatar, ...userInfo } = req.body;
-  User.findByIdAndUpdate(req.user._id, userInfo)
+  User.findByIdAndUpdate(req.user._id, userInfo, {
+    new: true,
+    runValidators: true,
+    upsert: true,
+  })
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => handleError(err, res));
