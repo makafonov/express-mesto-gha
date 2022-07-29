@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { NOT_FOUND } = require('./src/constants');
 const { routes } = require('./src/routes');
 require('dotenv').config();
 
@@ -16,6 +17,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use(routes);
+app.use((req, res) => {
+  res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
+});
 
 const main = () => {
   mongoose.connect('mongodb://localhost:27017/mestodb', {
