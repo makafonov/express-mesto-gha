@@ -1,15 +1,17 @@
+const { CREATED } = require('../constants');
 const Card = require('../models/card');
 const { handleError } = require('../utils');
 
 exports.getCards = (req, res) =>
   Card.find({})
     .populate('owner')
-    .then((cards) => res.send(cards));
+    .then((cards) => res.send(cards))
+    .catch((err) => handleError(err, res));
 
 exports.createCard = (req, res) =>
   Card.create({ ...req.body, owner: req.user._id })
     .then((card) => card.populate('owner'))
-    .then((card) => res.send(card))
+    .then((card) => res.status(CREATED).send(card))
     .catch((err) => handleError(err, res));
 
 exports.deleteCard = (req, res) =>
