@@ -1,7 +1,18 @@
-const { ERROR_CODE, NOT_FOUND, SERVER_ERROR } = require('./constants');
+const { ERROR_CODE, NOT_FOUND, SERVER_ERROR, CONFLICT } = require('./constants');
 
 const handleError = (err, res) => {
   switch (err.name) {
+    case 'MongoServerError':
+      if (err.code === 11000) {
+        res.status(CONFLICT).send({
+          message: 'Пользователь с указанным email уже существует',
+        });
+      } else {
+        res.status(SERVER_ERROR).send({
+          message: err.message,
+        });
+      }
+      break;
     case 'CastError':
       res.status(ERROR_CODE).send({
         message: 'Переданы некорректные данные',

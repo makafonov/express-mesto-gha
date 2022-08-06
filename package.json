@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./app.js",
     "dev": "nodemon ./app.js",
-    "lint": "npx eslint src/ ./app.js"
+    "lint": "npx eslint src/ ./app.js",
+    "test13": "npx newman run https://www.getpostman.com/collections/ebc7f98625878907b2c3 --color on"
   },
   "repository": {
     "type": "git",
@@ -24,12 +25,14 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "newman": "^5.3.2",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongoose": "^6.4.7"
+    "mongoose": "^6.4.7",
+    "validator": "^13.7.0"
   }
 }
