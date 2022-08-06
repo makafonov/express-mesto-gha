@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { CREATED } = require('../constants');
 const User = require('../models/user');
 const { handleError } = require('../utils');
@@ -15,7 +16,9 @@ exports.getUserById = (req, res) =>
     .catch((err) => handleError(err, res));
 
 exports.createUser = (req, res) =>
-  User.create(req.body)
+  bcrypt
+    .hash(String(req.body.password), 10)
+    .then((hash) => User.create({ ...req.body, password: hash }))
     .then((user) => res.status(CREATED).send(user))
     .catch((err) => handleError(err, res));
 
