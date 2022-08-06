@@ -1,35 +1,41 @@
-const { ERROR_CODE, NOT_FOUND, SERVER_ERROR, CONFLICT } = require('./constants');
+const { HTTP_ERROR, HTTP_NOT_FOUND, HTTP_SERVER_ERROR, HTTP_CONFLICT } = require('./constants');
 
-const handleError = (err, res) => {
+// eslint-disable-next-line no-unused-vars
+const handleError = (err, req, res, next) => {
+  const { statusCode, message } = err;
+
   switch (err.name) {
     case 'MongoServerError':
       if (err.code === 11000) {
-        res.status(CONFLICT).send({
+        res.status(HTTP_CONFLICT).send({
           message: 'Пользователь с указанным email уже существует',
         });
       } else {
-        res.status(SERVER_ERROR).send({
+        res.status(HTTP_SERVER_ERROR).send({
           message: err.message,
         });
       }
       break;
     case 'CastError':
-      res.status(ERROR_CODE).send({
+      res.status(HTTP_ERROR).send({
         message: 'Переданы некорректные данные',
       });
       break;
     case 'ValidationError':
-      res.status(ERROR_CODE).send({
+      res.status(HTTP_ERROR).send({
         message: err.message,
       });
       break;
     case 'DocumentNotFoundError':
-      res.status(NOT_FOUND).send({
+      res.status(HTTP_NOT_FOUND).send({
         message: 'Объект не найден',
       });
       break;
+    case 'Error':
+      res.status(statusCode).send({ message });
+      break;
     default:
-      res.status(SERVER_ERROR).send({
+      res.status(HTTP_SERVER_ERROR).send({
         message: 'На сервере произошла ошибка',
       });
   }
