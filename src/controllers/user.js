@@ -1,7 +1,11 @@
 const bcrypt = require('bcryptjs');
-const { CREATED } = require('../constants');
+const jwt = require('jsonwebtoken');
+const { CREATED, UNAUTHORIZED } = require('../constants');
 const User = require('../models/user');
 const { handleError } = require('../utils');
+require('dotenv').config();
+
+const { SECRET_KEY } = process.env;
 
 exports.getUsers = (req, res) => {
   User.find({})
@@ -43,4 +47,18 @@ exports.updateAvatar = (req, res) => {
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => handleError(err, res));
+};
+
+exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      res.send({
+        token: jwt.sign({ _id: user._id }, SECRET_KEY, { expiresIn: '7d' }),
+      });
+    })
+    .catch((err) => {
+      res.status(UNAUTHORIZED).send({ message: err.message });
+    });
 };
