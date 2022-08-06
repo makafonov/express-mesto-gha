@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { NOT_FOUND } = require('./src/constants');
 const { routes } = require('./src/routes');
 const userController = require('./src/controllers/user');
+const auth = require('./src/middlewares/auth');
 require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
@@ -20,6 +21,8 @@ app.use((req, res, next) => {
 
 app.post('/signin', userController.login);
 app.post('/signup', userController.createUser);
+
+app.use(auth);
 
 app.use(routes);
 app.use((req, res) => {
