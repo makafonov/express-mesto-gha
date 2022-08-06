@@ -3,7 +3,6 @@ const userController = require('../controllers/user');
 
 router.get('/', userController.getUsers);
 router.get('/:userId', userController.getUserById);
-router.post('/', userController.createUser);
 router.patch('/me', userController.updateUser);
 router.patch('/me/avatar', userController.updateAvatar);
 

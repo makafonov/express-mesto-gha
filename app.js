@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { NOT_FOUND } = require('./src/constants');
 const { routes } = require('./src/routes');
+const userController = require('./src/controllers/user');
 require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
@@ -16,6 +17,10 @@ app.use((req, res, next) => {
 
   next();
 });
+
+app.post('/signin', userController.login);
+app.post('/signup', userController.createUser);
+
 app.use(routes);
 app.use((req, res) => {
   res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
