@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const { errors, Joi, celebrate } = require('celebrate');
 
 const { PORT, DATABASE_URL } = require('./src/config');
-const { HTTP_NOT_FOUND } = require('./src/constants');
 const userController = require('./src/controllers/user');
 const auth = require('./src/middlewares/auth');
 const { routes } = require('./src/routes');
@@ -43,9 +42,6 @@ app.use(auth);
 app.use(routes);
 app.use(errors());
 app.use(handleError);
-app.use((req, res) => {
-  res.status(HTTP_NOT_FOUND).send({ message: 'Страница не найдена' });
-});
 
 const main = () => {
   mongoose.connect(DATABASE_URL, {
