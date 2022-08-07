@@ -1,12 +1,8 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const cardController = require('../controllers/cards');
 
-const cardIdParam = {
-  params: Joi.object().keys({
-    cardId: Joi.string().alphanum().length(24),
-  }),
-};
+const cardController = require('../controllers/cards');
+const { validateUrl, cardIdParam } = require('../validators');
 
 router.get('/', cardController.getCards);
 router.post(
@@ -14,12 +10,7 @@ router.post(
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().required().min(2).max(30),
-      link: Joi.string()
-        .uri({
-          scheme: ['http', 'https'],
-        })
-        .required(),
-      createdAt: Joi.date(),
+      link: Joi.string().required().custom(validateUrl),
     }),
   }),
   cardController.createCard,

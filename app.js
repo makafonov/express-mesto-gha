@@ -8,6 +8,7 @@ const userController = require('./src/controllers/user');
 const auth = require('./src/middlewares/auth');
 const { routes } = require('./src/routes');
 const { handleError } = require('./src/utils');
+const { validateUrl } = require('./src/validators');
 
 const app = express();
 
@@ -31,9 +32,7 @@ app.post(
       password: Joi.string().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().uri({
-        scheme: ['http', 'https'],
-      }),
+      avatar: Joi.string().custom(validateUrl),
     }),
   }),
   userController.createUser,

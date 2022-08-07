@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const { isEmail } = require('validator');
+const { isEmail, isURL } = require('validator');
 
 const UnauthorizedError = require('../errors/unauthorized-err');
 
@@ -31,12 +31,7 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-    validate: {
-      validator(url) {
-        return /(http|https):\/\/[\w\d\-./]+/.test(url);
-      },
-      message: (props) => `${props.value} is not a valid avatar url`,
-    },
+    validate: isURL,
   },
 });
 
