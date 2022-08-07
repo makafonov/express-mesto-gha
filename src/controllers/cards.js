@@ -1,5 +1,5 @@
 const { HTTP_CREATED } = require('../constants');
-const ForbiddenError = require('../errors/forbidden-err');
+const { ForbiddenError, handleCardError } = require('../errors');
 const Card = require('../models/card');
 
 exports.getCards = (req, res, next) => Card.find({})
@@ -28,7 +28,7 @@ exports.deleteCard = (req, res, next) => Card.findById(req.params.cardId)
     }
     throw new ForbiddenError('Доступ запрещен');
   })
-  .catch(next);
+  .catch((err) => handleCardError(err, next));
 
 exports.likeCard = (req, res, next) => Card.findByIdAndUpdate(
   req.params.cardId,
@@ -38,7 +38,7 @@ exports.likeCard = (req, res, next) => Card.findByIdAndUpdate(
   .orFail()
   .populate('owner')
   .then((card) => res.send(card))
-  .catch(next);
+  .catch((err) => handleCardError(err, next));
 
 exports.dislikeCard = (req, res, next) => Card.findByIdAndUpdate(
   req.params.cardId,
@@ -48,4 +48,4 @@ exports.dislikeCard = (req, res, next) => Card.findByIdAndUpdate(
   .orFail()
   .populate('owner')
   .then((card) => res.send(card))
-  .catch(next);
+  .catch((err) => handleCardError(err, next));

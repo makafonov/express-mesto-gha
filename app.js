@@ -6,7 +6,7 @@ const { PORT, DATABASE_URL } = require('./src/config');
 const userController = require('./src/controllers/user');
 const auth = require('./src/middlewares/auth');
 const { routes } = require('./src/routes');
-const { handleError } = require('./src/utils');
+const { handleError } = require('./src/errors');
 const { validateUrl } = require('./src/validators');
 
 const app = express();
