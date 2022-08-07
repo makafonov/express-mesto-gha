@@ -11,19 +11,17 @@ exports.getUsers = (req, res, next) => {
     .catch(next);
 };
 
-exports.getUserById = (req, res, next) =>
-  User.findById(req.params.userId)
-    .orFail()
-    .then((user) => res.send(user))
-    .catch(next);
+exports.getUserById = (req, res, next) => User.findById(req.params.userId)
+  .orFail()
+  .then((user) => res.send(user))
+  .catch(next);
 
-exports.createUser = (req, res, next) =>
-  bcrypt
-    .hash(String(req.body.password), SALT_LENGTH)
-    .then((hash) => User.create({ ...req.body, password: hash }))
-    // eslint-disable-next-line no-underscore-dangle
-    .then((user) => res.status(HTTP_CREATED).send({ ...user._doc, password: undefined }))
-    .catch(next);
+exports.createUser = (req, res, next) => bcrypt
+  .hash(String(req.body.password), SALT_LENGTH)
+  .then((hash) => User.create({ ...req.body, password: hash }))
+  // eslint-disable-next-line no-underscore-dangle
+  .then((user) => res.status(HTTP_CREATED).send({ ...user._doc, password: undefined }))
+  .catch(next);
 
 exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
@@ -33,7 +31,7 @@ exports.updateUser = (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
     .orFail()
     .then((user) => res.send(user))
@@ -60,8 +58,7 @@ exports.login = (req, res, next) => {
     .catch(next);
 };
 
-exports.getCurrentUserInfo = (req, res, next) =>
-  User.findById(req.user._id)
-    .orFail()
-    .then((user) => res.status(HTTP_OK).send(user))
-    .catch(next);
+exports.getCurrentUserInfo = (req, res, next) => User.findById(req.user._id)
+  .orFail()
+  .then((user) => res.status(HTTP_OK).send(user))
+  .catch(next);

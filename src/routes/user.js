@@ -11,7 +11,7 @@ router.get(
       userId: Joi.string().alphanum().length(24),
     }),
   }),
-  userController.getUserById
+  userController.getUserById,
 );
 router.patch(
   '/me',
@@ -21,7 +21,7 @@ router.patch(
       about: Joi.string().min(2).max(30),
     }),
   }),
-  userController.updateUser
+  userController.updateUser,
 );
 router.patch(
   '/me/avatar',
@@ -32,7 +32,7 @@ router.patch(
       }),
     }),
   }),
-  userController.updateAvatar
+  userController.updateAvatar,
 );
 
 module.exports = { router };

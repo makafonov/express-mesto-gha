@@ -21,7 +21,7 @@ app.post(
       password: Joi.string().required().min(8),
     }),
   }),
-  userController.login
+  userController.login,
 );
 app.post(
   '/signup',
@@ -36,7 +36,7 @@ app.post(
       }),
     }),
   }),
-  userController.createUser
+  userController.createUser,
 );
 
 app.use(auth);

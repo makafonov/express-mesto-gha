@@ -22,7 +22,7 @@ router.post(
       createdAt: Joi.date(),
     }),
   }),
-  cardController.createCard
+  cardController.createCard,
 );
 router.delete('/:cardId', celebrate(cardIdParam), cardController.deleteCard);
 router.put('/:cardId/likes', celebrate(cardIdParam), cardController.likeCard);

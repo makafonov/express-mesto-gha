@@ -1,4 +1,9 @@
-const { HTTP_ERROR, HTTP_NOT_FOUND, HTTP_SERVER_ERROR, HTTP_CONFLICT } = require('./constants');
+const {
+  HTTP_ERROR,
+  HTTP_NOT_FOUND,
+  HTTP_SERVER_ERROR,
+  HTTP_CONFLICT,
+} = require('./constants');
 
 // eslint-disable-next-line no-unused-vars
 const handleError = (err, req, res, next) => {
