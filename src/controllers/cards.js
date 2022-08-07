@@ -14,7 +14,7 @@ exports.createCard = (req, res, next) => Card.create({
 })
   .then((card) => card.populate('owner'))
   .then((card) => res.status(HTTP_CREATED).send(card))
-  .catch(next);
+  .catch((err) => handleCardError(err, next));
 
 exports.deleteCard = (req, res, next) => Card.findById(req.params.cardId)
   .orFail()
