@@ -7,7 +7,11 @@ exports.getCards = (req, res, next) => Card.find({})
   .then((cards) => res.send(cards))
   .catch(next);
 
-exports.createCard = (req, res, next) => Card.create({ ...req.body, owner: req.user._id })
+exports.createCard = (req, res, next) => Card.create({
+  name: req.body.name,
+  link: req.body.link,
+  owner: req.user._id,
+})
   .then((card) => card.populate('owner'))
   .then((card) => res.status(HTTP_CREATED).send(card))
   .catch(next);

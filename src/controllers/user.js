@@ -17,8 +17,14 @@ exports.getUserById = (req, res, next) => User.findById(req.params.userId)
   .catch(next);
 
 exports.createUser = (req, res, next) => bcrypt
-  .hash(String(req.body.password), SALT_LENGTH)
-  .then((hash) => User.create({ ...req.body, password: hash }))
+  .hash(req.body.password, SALT_LENGTH)
+  .then((hash) => User.create({
+    email: req.body.email,
+    password: hash,
+    name: req.body.name,
+    about: req.body.about,
+    avatar: req.body.avatar,
+  }))
   // eslint-disable-next-line no-underscore-dangle
   .then((user) => res.status(HTTP_CREATED).send({ ...user._doc, password: undefined }))
   .catch(next);
